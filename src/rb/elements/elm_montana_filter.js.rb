@@ -33,7 +33,7 @@ export default class ElmMontanaFilter < HTMLElement
       similar_sprays.splice(10)
     end
 
-    Events.emit(self.tag_name, EVENTS::MONTANA_FILTER_INPUT, similar_sprays)
+    Events.emit('#app', EVENTS::MONTANA_FILTER_INPUT, similar_sprays)
   end
 
   def init_elm()

@@ -30,7 +30,7 @@ export default class ElmMontanaFilter extends HTMLElement {
     if (similarSprays.length > 10) similarSprays.splice(10);
 
     return Events.emit(
-      this.tagName,
+      "#app",
       EVENTS.MONTANA_FILTER_INPUT,
       similarSprays
     )
