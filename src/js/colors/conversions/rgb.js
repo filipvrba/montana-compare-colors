@@ -23,9 +23,9 @@ export default class Rgb {
     this._b = b
   };
 
-  constructor(r, g, b) {
-    this._r = r;
-    this._g = g;
-    this._b = b
+  constructor(options) {
+    this._r = options.r;
+    this._g = options.g;
+    this._b = options.b
   }
 }
