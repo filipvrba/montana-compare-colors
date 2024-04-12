@@ -33,7 +33,7 @@ export default class ElmMontanaFilter < HTMLElement
       similar_sprays.splice(10)
     end
 
-    Events.emit('#app', EVENTS::MONTANA_FILTER_INPUT, similar_sprays)
+    Events.emit('#app', EVENTS::MONTANA_FILTER_INPUT, [{compare: 0, spray: similar}].concat(similar_sprays))
   end
 
   def init_elm()
@@ -79,8 +79,8 @@ export default class ElmMontanaFilter < HTMLElement
     end
 
     sort_similar_sprays = similar_sprays.slice().sort( lambda {|a, b| a.compare - b.compare})
-    similar_sprays = sort_similar_sprays.map(lambda { |o| return o.spray})
+    #similar_sprays = sort_similar_sprays.map(lambda { |o| return o.spray})
 
-    return similar_sprays
+    return sort_similar_sprays
   end
 end

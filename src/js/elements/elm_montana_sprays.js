@@ -22,11 +22,41 @@ export default class ElmMontanaSprays extends HTMLElement {
   };
 
   initElm() {
-    let template = `${`\n    `}`;
+    let template = `${`
+<table class='table table-bordered'>
+  <thead>
+    <tr>
+      <th scope='col'>Id</th>
+      <th scope='col'>Name</th>
+      <th scope='col'>Color</th>
+    </tr>
+  </thead>
+  <tbody id='montana-sprays-body'>
+  </tbody>
+</table>
+    `}`;
     return this.innerHTML = template
   };
 
+  initTrElm(sprays) {
+    if (!sprays) return;
+    let trs = [];
+
+    for (let spray of sprays) {
+      let template = `${`
+<tr>
+  <th scope='row'>${spray.spray.id}</th>
+  <td>${spray.spray.name}</td>
+  <td bgcolor='${spray.spray.hex}'>${spray.compare}</td>
+</tr>
+      `}`;
+      trs.push(template)
+    };
+
+    return document.getElementById("montana-sprays-body").innerHTML = trs.join("")
+  };
+
   changeSprays(sprays) {
-    return console.log(sprays)
+    return this.initTrElm(sprays)
   }
 }

@@ -32,7 +32,7 @@ export default class ElmMontanaFilter extends HTMLElement {
     return Events.emit(
       "#app",
       EVENTS.MONTANA_FILTER_INPUT,
-      similarSprays
+      [{compare: 0, spray: similar}].concat(similarSprays)
     )
   };
 
@@ -77,7 +77,7 @@ export default class ElmMontanaFilter extends HTMLElement {
       a.compare - b.compare
     ));
 
-    similarSprays = sortSimilarSprays.map(o => o.spray);
-    return similarSprays
+    //similar_sprays = sort_similar_sprays.map(lambda { |o| return o.spray})
+    return sortSimilarSprays
   }
 }
