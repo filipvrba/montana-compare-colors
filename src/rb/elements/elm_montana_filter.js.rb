@@ -14,6 +14,8 @@ export default class ElmMontanaFilter < HTMLElement
 
   def connected_callback()
     @montana_filter_input.add_event_listener('input', @h_mf_input)
+
+    @h_mf_input.call()
   end
 
   def disconnected_callback()
@@ -27,13 +29,13 @@ export default class ElmMontanaFilter < HTMLElement
       return
     end
 
-    similar_sprays = find_similar_sprays(similar, different)
+    similar_sprays = find_similar_sprays(similar, different, (value == "") ? Infinity : 50)
     
-    if similar_sprays.length > 10
+    if value != "" && similar_sprays.length > 10
       similar_sprays.splice(10)
     end
 
-    Events.emit('#app', EVENTS::MONTANA_FILTER_INPUT, [{compare: 0, spray: similar}].concat(similar_sprays))
+    Events.emit('#app', EVENTS::MONTANA_FILTER_INPUT, [similar].concat(similar_sprays))
   end
 
   def init_elm()
@@ -64,13 +66,13 @@ export default class ElmMontanaFilter < HTMLElement
     return [similar, different]
   end
 
-  def find_similar_sprays(similar, different)
+  def find_similar_sprays(similar, different, compare_max = 50)
     similar_sprays = []
     similar_rgb = Rgb.new(similar.rgb)
     different.each do |spray|
       different_rgb = Rgb.new(spray.rgb)
       compare = Cie1976::compare(similar_rgb, different_rgb)
-      if compare < 50.0
+      if compare < compare_max
         similar_sprays << {
           compare: compare,
           spray: spray
@@ -79,8 +81,8 @@ export default class ElmMontanaFilter < HTMLElement
     end
 
     sort_similar_sprays = similar_sprays.slice().sort( lambda {|a, b| a.compare - b.compare})
-    #similar_sprays = sort_similar_sprays.map(lambda { |o| return o.spray})
+    similar_sprays = sort_similar_sprays.map(lambda { |o| return o.spray})
 
-    return sort_similar_sprays
+    return similar_sprays
   end
 end

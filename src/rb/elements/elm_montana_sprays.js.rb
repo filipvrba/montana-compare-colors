@@ -43,9 +43,11 @@ export default class ElmMontanaSprays < HTMLElement
     sprays.each do |spray|
       template = """
 <tr>
-  <th scope='row'>#{spray.spray.id}</th>
-  <td>#{spray.spray.name}</td>
-  <td bgcolor='#{spray.spray.hex}'>#{spray.compare}</td>
+  <th scope='row'>#{spray.id}</th>
+  <td>#{spray.name}</td>
+  <td style='background-color: #{spray.hex};'>
+    <p style='color: #{spray.hex}; filter: invert(1);'>#{spray.hex}</p>
+  </td>
 </tr>
       """
       trs << template

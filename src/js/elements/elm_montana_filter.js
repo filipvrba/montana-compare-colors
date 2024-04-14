@@ -10,10 +10,8 @@ export default class ElmMontanaFilter extends HTMLElement {
   };
 
   connectedCallback() {
-    return this._montanaFilterInput.addEventListener(
-      "input",
-      this._hMfInput
-    )
+    this._montanaFilterInput.addEventListener("input", this._hMfInput);
+    return this._hMfInput()
   };
 
   disconnectedCallback() {
@@ -26,13 +24,19 @@ export default class ElmMontanaFilter extends HTMLElement {
   mfInput(value) {
     let [similar, different] = this.findSimilarAndDifferent(value);
     if (!similar) return;
-    let similarSprays = this.findSimilarSprays(similar, different);
-    if (similarSprays.length > 10) similarSprays.splice(10);
+
+    let similarSprays = this.findSimilarSprays(
+      similar,
+      different,
+      value === "" ? Infinity : 50
+    );
+
+    if (value !== "" && similarSprays.length > 10) similarSprays.splice(10);
 
     return Events.emit(
       "#app",
       EVENTS.MONTANA_FILTER_INPUT,
-      [{compare: 0, spray: similar}].concat(similarSprays)
+      [similar].concat(similarSprays)
     )
   };
 
@@ -63,21 +67,21 @@ export default class ElmMontanaFilter extends HTMLElement {
     return [similar, different]
   };
 
-  findSimilarSprays(similar, different) {
+  findSimilarSprays(similar, different, compareMax=50) {
     let similarSprays = [];
     let similarRgb = new Rgb(similar.rgb);
 
     for (let spray of different) {
       let differentRgb = new Rgb(spray.rgb);
       let compare = Cie1976.compare(similarRgb, differentRgb);
-      if (compare < 50.0) similarSprays.push({compare, spray})
+      if (compare < compareMax) similarSprays.push({compare, spray})
     };
 
     let sortSimilarSprays = similarSprays.slice().sort((a, b) => (
       a.compare - b.compare
     ));
 
-    //similar_sprays = sort_similar_sprays.map(lambda { |o| return o.spray})
-    return sortSimilarSprays
+    similarSprays = sortSimilarSprays.map(o => o.spray);
+    return similarSprays
   }
 }
