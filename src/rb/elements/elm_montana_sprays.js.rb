@@ -20,8 +20,9 @@ export default class ElmMontanaSprays < HTMLElement
 <table class='table table-bordered'>
   <thead>
     <tr>
-      <th scope='col'>Id</th>
       <th scope='col'>Name</th>
+      <th scope='col'>Hex</th>
+      <th scope='col'>Rgb</th>
       <th scope='col'>Color</th>
     </tr>
   </thead>
@@ -43,11 +44,10 @@ export default class ElmMontanaSprays < HTMLElement
     sprays.each do |spray|
       template = """
 <tr>
-  <th scope='row'>#{spray.id}</th>
-  <td>#{spray.name}</td>
-  <td style='background-color: #{spray.hex};'>
-    <p style='color: #{spray.hex}; filter: invert(1);'>#{spray.hex}</p>
-  </td>
+  <th scope='row'>#{spray.name}</th>
+  <td>#{spray.hex}</td>
+  <td>#{spray.rgb.r} #{spray.rgb.g} #{spray.rgb.b}</td>
+  <td style='background-color: #{spray.hex};'></td>
 </tr>
       """
       trs << template

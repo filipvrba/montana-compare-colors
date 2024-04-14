@@ -42,7 +42,7 @@ export default class ElmMontanaFilter < HTMLElement
     template = """
 <div class='form-floating mb-3'>
   <input type='text' class='form-control' id='montanaFilterInput' placeholder=''>
-  <label for='montanaFilterInput'>Spray</label>
+  <label for='montanaFilterInput'>Name</label>
 </div>
     """
 

@@ -44,7 +44,7 @@ export default class ElmMontanaFilter extends HTMLElement {
     let template = `${`
 <div class='form-floating mb-3'>
   <input type='text' class='form-control' id='montanaFilterInput' placeholder=''>
-  <label for='montanaFilterInput'>Spray</label>
+  <label for='montanaFilterInput'>Name</label>
 </div>
     `}`;
     return this.innerHTML = template
